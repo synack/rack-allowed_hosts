@@ -1,0 +1,7 @@
+*.gem
+
+# Mac
+.DS_Store
+
+# VI
+*.swp
