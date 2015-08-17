@@ -8,21 +8,21 @@ module Rack
 
     def initialize(app, &block)
       @app = app
+      @allowed_hosts = []
 
       # Call the block
       instance_eval(&block)
     end
 
     def allow(*hosts)
-      @allowed_hosts ||= []
-
       # Also allow the for `allow ['host-a.com', 'host-b.com']` etc.
       if hosts.size == 1 && hosts[0].is_a?(Array)
         hosts = hosts[0]
       end
 
       hosts.each do |host|
-        @allowed_hosts << matcher_for(host)
+        matcher = matcher_for(host)
+        @allowed_hosts << matcher unless @allowed_hosts.include? matcher
       end
     end
 
@@ -37,7 +37,6 @@ module Rack
     end
 
     def host_allowed?(host)
-      return false unless @allowed_hosts.is_a? Array
       return false if host.nil?
 
       @allowed_hosts.each do |pattern|
@@ -48,6 +47,7 @@ module Rack
     end
 
     def matcher_for(host)
+      host = host.gsub(/\.\Z/, '')
       parts = host.split('.')
       pattern = nil
       parts.each do |part|
