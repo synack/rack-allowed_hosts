@@ -81,4 +81,3 @@ allow '*.com'
 allow 'mydomain.*'
 allow 'mycomain.com.*'
 ```
-
