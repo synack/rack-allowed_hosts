@@ -6,7 +6,7 @@ Rack::AllowedHosts
 Usage
 -----
 
-### 1. Intall
+### 1. Install
 
 ```
 gem 'rack-allowed_hosts'
