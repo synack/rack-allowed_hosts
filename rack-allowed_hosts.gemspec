@@ -16,4 +16,6 @@ Gem::Specification.new do |s|
   s.version      = Rack::AllowedHosts::VERSION
   s.date         = '2015-08-16'
 
+  s.add_development_dependency "rspec"
+
 end
