@@ -64,7 +64,7 @@ module Rack
       if part == '*'
         /.*/
       else
-        part
+        Regexp.quote(part)
       end
     end
   end
