@@ -36,6 +36,29 @@ describe Rack::AllowedHosts do
       pattern = instance.matcher_for('*.example.com')
       expect(pattern.match('www.example.com')).not_to be_nil
     end
+
+    context 'with rejex in strings' do
+      it 'doesn’t treat periods as wildcards' do
+        pattern = instance.matcher_for('abc.def.com')
+        expect(pattern.match('abc-def.com')).to be_nil
+      end
+
+      it 'ignores "*" from rejex' do
+        pattern = instance.matcher_for('abc*.def.com')
+        expect(pattern.match('abcc.def.com')).to be_nil
+      end
+
+      it 'ignored "?" from rejex' do
+        pattern = instance.matcher_for('abc?.def.com')
+        expect(pattern.match('abc.def.com')).to be_nil
+        expect(pattern.match('ab.def.com')).to be_nil
+      end
+
+      it 'ignores parentheses in rejex' do
+        pattern = instance.matcher_for('ab(c).def.com')
+        expect(pattern.match('abc.def.com')).to be_nil
+      end
+    end
   end
 
   context '#host_allowed?' do
