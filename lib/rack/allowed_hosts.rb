@@ -27,9 +27,15 @@ module Rack
     end
 
     def call(env)
-      host = env['HTTP_HOST'].split(':').first
-      unless host_allowed?(host)
-        return [403, {'Content-Type' => 'text/html'}, ['<h1>403 Forbidden</h1>']]
+      host_values = [
+        env['HTTP_HOST'].split(':').first,
+        env['SERVER_NAME']
+      ].uniq
+
+      host_values.each do |host|
+        unless host_allowed?(host)
+          return [403, {'Content-Type' => 'text/html'}, ['<h1>403 Forbidden</h1>']]
+        end
       end
 
       # Fetch the result
