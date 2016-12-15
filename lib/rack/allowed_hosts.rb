@@ -4,6 +4,8 @@ require 'rack/allowed_hosts/version'
 module Rack
   class AllowedHosts
 
+    FORBIDDEN_RESPONSE = [403, {'Content-Type' => 'text/html'}, ['<h1>403 Forbidden</h1>']]
+
     attr_reader :allowed_hosts
 
     def initialize(app, &block)
@@ -27,14 +29,20 @@ module Rack
     end
 
     def call(env)
+      http_host = env['HTTP_HOST']
+
+      unless http_host.nil?
+        http_host = http_host.split(':').first
+      end
+
       host_values = [
-        env['HTTP_HOST'].split(':').first,
+        http_host,
         env['SERVER_NAME']
       ].uniq
 
       host_values.each do |host|
         unless host_allowed?(host)
-          return [403, {'Content-Type' => 'text/html'}, ['<h1>403 Forbidden</h1>']]
+          return FORBIDDEN_RESPONSE
         end
       end
 

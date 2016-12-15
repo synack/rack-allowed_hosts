@@ -139,4 +139,34 @@ describe Rack::AllowedHosts do
     end
   end
 
+  context 'call' do
+    let (:app) { double }
+    let(:instance) do
+      Rack::AllowedHosts.new(app) do
+        allow 'example.com'
+      end
+    end
+
+    context 'when HTTP_HOST and SERVER_NAME are nil' do
+      it 'returns the forbidden response' do
+        expect(app).to_not receive(:call)
+        expect(instance.call({})).to eq Rack::AllowedHosts::FORBIDDEN_RESPONSE
+      end
+    end
+
+    context 'when the host header is not an allowed host' do
+      it 'returns the forbidden response' do
+        expect(app).to_not receive(:call)
+        expect(instance.call({ 'HTTP_HOST' => 'someotherdomain.com', 'SERVER_NAME' => 'someotherdomain.com' })).to eq Rack::AllowedHosts::FORBIDDEN_RESPONSE
+      end
+    end
+
+    context 'when the host header is an allowed host' do
+      it 'calls the next rack middleware' do
+        expect(app).to receive(:call)
+
+        instance.call({ 'HTTP_HOST' => 'example.com', 'SERVER_NAME' => 'example.com' })
+      end
+    end
+  end
 end
