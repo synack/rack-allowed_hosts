@@ -17,5 +17,6 @@ Gem::Specification.new do |s|
   s.date         = '2015-08-16'
 
   s.add_development_dependency "rspec"
-
+  s.add_development_dependency "pry"
+  s.add_development_dependency "pry-byebug"
 end
