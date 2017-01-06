@@ -8,7 +8,7 @@ Usage
 
 ### 1. Install
 
-```
+```ruby
 gem 'rack-allowed_hosts'
 ```
 
@@ -16,7 +16,7 @@ gem 'rack-allowed_hosts'
 
 In `config/application.rb`, (if using Rails):
 
-```
+```ruby
 class MyApplication < Rails::Application
   ...
   if Rails.env == 'production'
@@ -65,19 +65,25 @@ Warnings
 
 ### Do not do this:
 
-```
+```ruby
 allow '*'
 ```
 
 **...or this...**
 
-```
+```ruby
 allow '*.com'
 ```
 
 **...or any of these...** (will enable anyone to spoof with `mydomain.com.maliciousdomain.com`)
 
-```
+```ruby
 allow 'mydomain.*'
 allow 'mycomain.com.*'
+```
+
+**...or this** (will not match anything)
+
+```ruby
+allow '*-something.mydomain.com'
 ```
