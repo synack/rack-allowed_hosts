@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.author       = 'Jeremy Blalock'
   s.files        = Dir["{lib}/**/*.rb"]
   s.version      = Rack::AllowedHosts::VERSION
-  s.date         = '2015-08-16'
+  s.date         = '2017-01-06'
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "pry"
