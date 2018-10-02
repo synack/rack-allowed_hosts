@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.files        = Dir["{lib}/**/*.rb"]
   s.version      = Rack::AllowedHosts::VERSION
   s.date         = '2017-01-06'
+  s.license      = 'MIT'
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "pry"
